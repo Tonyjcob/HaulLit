@@ -47,9 +47,13 @@ function createCard(product) {
     </div>
     <button class="product-card__btn">AÑADIR AL CARRITO</button>
   `;
-  card.querySelector('.product-card__btn').addEventListener('click', function () {
-    addToCart({ id: product.id, name: product.name, price: product.price, size: product.size });
+
+
+  card.addEventListener('click', function () {
+    window.location.href = 'producto.html?id=' + product.id;
   });
+
+
   return card;
 }
 
