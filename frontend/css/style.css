@@ -12,7 +12,7 @@
     --header-h: 56px;
     --cart-w: 260px;
 
-    --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-main: 'Syne', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 28px;
@@ -113,7 +113,7 @@ button { font-family: inherit; cursor: pointer; }
     font-size: 220px;
     font-weight: 700;
     letter-spacing: -10px;
-    color: rgba(255, 255, 255, 0.04);
+    color: var(--color-muted);
     line-height: 1;
     pointer-events: none;
     user-select: none;
@@ -125,7 +125,7 @@ button { font-family: inherit; cursor: pointer; }
     flex-direction: column;
     gap: var(--spacing-md);
 }
-.hero__tag { font-size: 10px; letter-spacing: 3px; color: rgba(255, 255, 255, 0.04)}
+.hero__tag { font-size: 10px; letter-spacing: 3px; color: var(--color-muted)}
 .hero__title { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.15; color:#ffffff }
 .hero__cta {
     display: inline-block;
@@ -148,11 +148,73 @@ button { font-family: inherit; cursor: pointer; }
     border-bottom: 1px solid var(--color-border);
 }
 .products__title { font-size: 11px; font-weight: 400; letter-spacing: 3px; color: var(--color-muted);}
-.products--grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px ;}
+
+.products__grid { 
+    display: grid;
+     grid-template-columns: repeat(3, 1fr);
+      gap: 12px ;
+    }
+
 .products__empty {
     font-size: 13px; color:var(--color-muted);
     letter-spacing: 1px; grid-column: 1 / -1;
     padding: var(--spacing-xl) 0; text-align: center;
+}
+
+/* TARJETA DE PRODUCTO */
+.product-card{
+    border:  1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover { border-color: var(--color-text); }
+
+.product-card__img {
+  height: 320px;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.product-card__img img { width: 100%; height: 100%; object-fit: cover; }
+.product-card__placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  color: var(--color-border);
+}
+.product-card__placeholder svg { opacity: 0.4; }
+.product-card__placeholder span { font-size: 9px; letter-spacing: 2px; color: var(--color-muted); }
+
+.product-card__info {
+  padding: 12px;
+  display: flex; flex-direction: column;
+  gap: 4px; flex: 1;
+}
+.product-card__name { font-size: 12px; font-weight: 500; letter-spacing: 1px; color: var(--color-text); }
+.product-card__price { font-size: 12px; color: var(--color-muted); letter-spacing: 1px; }
+
+.product-card__btn {
+  margin: 0 12px 12px;
+  padding: 9px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  font-size: 10px; letter-spacing: 2px;
+  color: var(--color-text);
+  width: calc(100% - 24px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.product-card__btn:hover {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-surface);
 }
 
 /*CARRITO LATERAL*/
@@ -161,13 +223,18 @@ button { font-family: inherit; cursor: pointer; }
     flex-shrink: 0;
     border-left: 1px solid var(--color-border);
     background: var(--color-surface);
-    display: flex;
+    display: none;
     flex-direction: column;
     position: sticky;
     top: var(--header-h);
     height: calc(100vh - var(--header-h));
     overflow-y: auto;
 }
+
+.cart.open{
+    display: flex;
+}
+
 .cart__header{
     padding:var(--spacing-md) var(--spacing-md) var(--spacing-sm);
     border-bottom: 1px solid var(--color-border);
@@ -175,9 +242,11 @@ button { font-family: inherit; cursor: pointer; }
     justify-content: space-between;
     align-items: baseline;
 }
+
 .cart__title { font-size: 11px; font-weight: 700;}
 .cart__count { font-size: 11px; color: var(--color-muted); letter-spacing: 1px;}
 .cart__items { flex: 1; overflow-y: auto ;}
+
 .cart__empty {
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
