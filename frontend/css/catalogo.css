@@ -25,9 +25,9 @@
 
 .catalog__filters {
   display: flex;
-  gap: var(--spacing-xl);
+  flex-direction: column;
+  gap: 6px;
   padding-bottom: var(--spacing-md);
-  flex-wrap: wrap;
 }
 .filters__group {
   display: flex;
@@ -39,11 +39,11 @@
   letter-spacing: 3px;
   color: var(--color-muted);
   flex-shrink: 0;
+  max-width: 80px;
 }
 .filters__pills {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
 }
 .filter-pill {
   font-size: 10px;
@@ -55,6 +55,7 @@
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 .filter-pill:hover {
   color: var(--color-text);
