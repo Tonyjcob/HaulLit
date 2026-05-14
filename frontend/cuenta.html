@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Cuenta — HaulLit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/cuenta.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__logo">
+            <a href="index.html" class="header__logo-link">
+                <img src="img/logo-haullit-monogram-transparent.svg" alt="HaulLit" class="header__logo-img">
+                <div class="header__naming">
+                    <span class="header__brand">HAULIT</span>
+                    <span class="header__tagline">STREETWEAR</span>
+                </div>
+             </a>
+        </div>
+    <nav class="header__nav">
+      <a href="catalogo.html" class="nav__link">CATÁLOGO</a>
+      <a href="cuenta.html"   class="nav__link active">MI CUENTA</a>
+      <a href="info.html"     class="nav__link">INFO</a>
+      <a href="peticiones.html" class="nav__link">PETICIONES</a>
+    </nav>
+    <button class="header__cart-btn" id="js-cart-toggle" aria-label="Abrir carrito">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span>CARRITO</span>
+      <span class="cart-badge" id="js-cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+    <main class="main">
+
+      <!-- VISTA LOGIN -->
+      <div class="login__wrap" id="js-login">
+        <div class="login__box">
+          <div class="login__brand">
+            <span class="login__brand-name">HAULIT</span>
+            <span class="login__brand-sub">ACCESO PRIVADO</span>
+          </div>
+
+          <h1 class="cuenta__section-title">INICIAR SESIÓN</h1>
+
+          <div class="cuenta__field">
+            <label class="cuenta__label" for="login-email">EMAIL</label>
+            <input class="cuenta__input" id="login-email" type="email"
+                   placeholder="tu@email.com" autocomplete="email">
+          </div>
+
+          <div class="cuenta__field">
+            <label class="cuenta__label" for="login-pass">CONTRASEÑA</label>
+            <input class="cuenta__input" id="login-pass" type="password"
+                   placeholder="••••••••" autocomplete="current-password">
+          </div>
+
+          <p class="cuenta__error" id="js-login-error"></p>
+          <button class="cuenta__btn-primary" id="js-login-btn">ENTRAR</button>
+
+          <p class="login__forgot">
+            ¿Olvidaste tu contraseña?
+            <a href="mailto:info@haullit.com">Contacta con soporte</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- VISTA PERFIL (logueado) -->
+      <div class="perfil__wrap" id="js-perfil" style="display:none">
+
+        <!-- SIDEBAR -->
+        <aside class="perfil__sidebar">
+          <div class="perfil__user">
+            <div class="perfil__avatar" id="js-avatar">AN</div>
+            <div>
+              <span class="perfil__user-name" id="js-user-name">—</span>
+              <span class="perfil__user-email" id="js-user-email">—</span>
+            </div>
+          </div>
+
+          <nav class="perfil__nav">
+            <button class="perfil__nav-link active" data-section="perfil">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              PERFIL
+            </button>
+            <button class="perfil__nav-link" data-section="pedidos">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+              MIS PEDIDOS
+            </button>
+            <button class="perfil__nav-link" data-section="direcciones">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              DIRECCIONES
+            </button>
+          </nav>
+
+          <button class="perfil__logout" id="js-logout">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            CERRAR SESIÓN
+          </button>
+        </aside>
+
+        <!-- CONTENIDO -->
+        <div class="perfil__content">
+
+          <!-- SECCIÓN: PERFIL -->
+          <section class="perfil__section" id="js-section-perfil">
+            <h2 class="cuenta__section-title">DATOS PERSONALES</h2>
+            <div class="cuenta__field-row">
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="p-nombre">NOMBRE</label>
+                <input class="cuenta__input" id="p-nombre" type="text">
+              </div>
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="p-apellido">APELLIDO</label>
+                <input class="cuenta__input" id="p-apellido" type="text">
+              </div>
+            </div>
+            <div class="cuenta__field">
+              <label class="cuenta__label" for="p-email">EMAIL</label>
+              <input class="cuenta__input" id="p-email" type="email" disabled>
+            </div>
+            <div class="cuenta__field">
+              <label class="cuenta__label" for="p-telefono">TELÉFONO</label>
+              <input class="cuenta__input" id="p-telefono" type="tel" placeholder="+34 600 000 000">
+            </div>
+            <p class="cuenta__success" id="js-perfil-ok"></p>
+            <div class="cuenta__actions">
+              <button class="cuenta__btn-secondary" id="js-perfil-save">GUARDAR CAMBIOS</button>
+            </div>
+
+            <hr class="cuenta__divider">
+
+            <h2 class="cuenta__section-title">CAMBIAR CONTRASEÑA</h2>
+            <div class="cuenta__field">
+              <label class="cuenta__label" for="p-pass-actual">CONTRASEÑA ACTUAL</label>
+              <input class="cuenta__input" id="p-pass-actual" type="password" placeholder="••••••••">
+            </div>
+            <div class="cuenta__field-row">
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="p-pass-nueva">NUEVA CONTRASEÑA</label>
+                <input class="cuenta__input" id="p-pass-nueva" type="password" placeholder="••••••••">
+              </div>
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="p-pass-confirmar">CONFIRMAR</label>
+                <input class="cuenta__input" id="p-pass-confirmar" type="password" placeholder="••••••••">
+              </div>
+            </div>
+            <p class="cuenta__error" id="js-pass-error"></p>
+            <p class="cuenta__success" id="js-pass-ok"></p>
+            <div class="cuenta__actions">
+              <button class="cuenta__btn-primary" id="js-pass-save">ACTUALIZAR CONTRASEÑA</button>
+            </div>
+          </section>
+
+          <!-- SECCIÓN: PEDIDOS -->
+          <section class="perfil__section" id="js-section-pedidos" style="display:none">
+            <h2 class="cuenta__section-title">MIS PEDIDOS</h2>
+            <div class="pedidos__list" id="js-pedidos-list">
+              <p class="cuenta__empty">No tienes pedidos aún</p>
+            </div>
+          </section>
+
+          <!-- SECCIÓN: DIRECCIONES -->
+          <section class="perfil__section" id="js-section-direcciones" style="display:none">
+            <h2 class="cuenta__section-title">DIRECCIÓN DE ENVÍO</h2>
+            <div class="cuenta__field-row">
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="d-calle">CALLE Y NÚMERO</label>
+                <input class="cuenta__input" id="d-calle" type="text" placeholder="Calle Mayor, 12">
+              </div>
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="d-piso">PISO / PUERTA</label>
+                <input class="cuenta__input" id="d-piso" type="text" placeholder="2º B">
+              </div>
+            </div>
+            <div class="cuenta__field-row">
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="d-cp">CÓDIGO POSTAL</label>
+                <input class="cuenta__input" id="d-cp" type="text" placeholder="28001">
+              </div>
+              <div class="cuenta__field">
+                <label class="cuenta__label" for="d-ciudad">CIUDAD</label>
+                <input class="cuenta__input" id="d-ciudad" type="text" placeholder="Madrid">
+              </div>
+            </div>
+            <div class="cuenta__field">
+              <label class="cuenta__label" for="d-pais">PAÍS</label>
+              <input class="cuenta__input" id="d-pais" type="text" placeholder="España">
+            </div>
+            <p class="cuenta__success" id="js-dir-ok"></p>
+            <div class="cuenta__actions">
+              <button class="cuenta__btn-secondary" id="js-dir-save">GUARDAR DIRECCIÓN</button>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- CARRITO LATERAL -->
+    <aside class="cart" id="js-cart">
+      <div class="cart__header">
+        <span class="cart__title">CARRITO</span>
+        <span class="cart__count" id="js-cart-label">0 artículos</span>
+      </div>
+      <div class="cart__items" id="js-cart-items">
+        <div class="cart__empty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <p>Tu carrito está vacío</p>
+        </div>
+      </div>
+      <div class="cart__footer">
+        <div class="cart__subtotal">
+          <span class="cart__subtotal-label">SUBTOTAL</span>
+          <span class="cart__subtotal-value" id="js-subtotal">0,00 €</span>
+        </div>
+        <a href="checkout.html" class="cart__checkout-btn">FINALIZAR COMPRA</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer__copy">© 2025 HAULIT</span>
+    <nav class="footer__links">
+      <a href="info.html">CONTACTO</a>
+      <a href="info.html#redes">REDES</a>
+      <a href="info.html#soporte">SOPORTE</a>
+    </nav>
+  </footer>
+
+  <script src="js/cart.js"></script>
+  <script src="js/cuenta.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ duration: 500, once: true, offset: 40, easing: 'ease-out' });</script>
+</body>
+</html>

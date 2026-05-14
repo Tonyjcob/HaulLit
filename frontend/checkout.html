@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — HaulLit</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body>
+
+  <!-- HEADER SIMPLIFICADO -->
+  <header class="header">
+    <div class="header__logo">
+      <a href="index.html" class="header__logo-link">
+        <img src="img/logo-haullit-monogram-transparent.svg" alt="HaulLit" class="header__logo-img">
+        <div class="header__naming">
+          <span class="header__brand">HAULIT</span>
+          <span class="header__tagline">STREETWEAR</span>
+        </div>
+      </a>
+    </div>
+    <span class="checkout__secure">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      PAGO SEGURO SSL
+    </span>
+  </header>
+
+  <main class="checkout__main">
+
+    <!-- BARRA DE PASOS -->
+    <div class="checkout__steps">
+      <div class="checkout__step done" id="js-step-1">
+        <div class="step__num">✓</div>
+        <span>CARRITO</span>
+      </div>
+      <div class="step__sep"></div>
+      <div class="checkout__step active" id="js-step-2">
+        <div class="step__num">2</div>
+        <span>ENVÍO</span>
+      </div>
+      <div class="step__sep"></div>
+      <div class="checkout__step" id="js-step-3">
+        <div class="step__num">3</div>
+        <span>PAGO</span>
+      </div>
+      <div class="step__sep"></div>
+      <div class="checkout__step" id="js-step-4">
+        <div class="step__num">4</div>
+        <span>CONFIRMACIÓN</span>
+      </div>
+    </div>
+
+    <div class="checkout__layout">
+
+      <!-- COLUMNA IZQUIERDA: FORMULARIOS -->
+      <div class="checkout__form-col">
+
+        <!-- PASO 2: ENVÍO -->
+        <section class="checkout__panel" id="js-panel-envio">
+          <h2 class="checkout__panel-title">DATOS DE ENVÍO</h2>
+
+          <div class="checkout__field-row">
+            <div class="checkout__field">
+              <label class="checkout__label" for="env-nombre">NOMBRE</label>
+              <input class="checkout__input" id="env-nombre" type="text" placeholder="Antonio">
+            </div>
+            <div class="checkout__field">
+              <label class="checkout__label" for="env-apellido">APELLIDO</label>
+              <input class="checkout__input" id="env-apellido" type="text" placeholder="Pérez">
+            </div>
+          </div>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="env-direccion">DIRECCIÓN</label>
+            <input class="checkout__input" id="env-direccion" type="text" placeholder="Calle Mayor, 12">
+          </div>
+
+          <div class="checkout__field-row">
+            <div class="checkout__field">
+              <label class="checkout__label" for="env-ciudad">CIUDAD</label>
+              <input class="checkout__input" id="env-ciudad" type="text" placeholder="Madrid">
+            </div>
+            <div class="checkout__field">
+              <label class="checkout__label" for="env-cp">CÓDIGO POSTAL</label>
+              <input class="checkout__input" id="env-cp" type="text" placeholder="28001">
+            </div>
+          </div>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="env-pais">PAÍS</label>
+            <input class="checkout__input" id="env-pais" type="text" placeholder="España" value="España">
+          </div>
+
+          <div class="checkout__field">
+            <label class="checkout__label" for="env-telefono">TELÉFONO</label>
+            <input class="checkout__input" id="env-telefono" type="tel" placeholder="+34 600 000 000">
+          </div>
+
+          <label class="checkout__check">
+            <input type="checkbox" id="env-guardar">
+            <span>Guardar dirección en mi cuenta</span>
+          </label>
+
+          <p class="checkout__error" id="js-envio-error"></p>
+          <button class="checkout__btn-primary" id="js-btn-envio">CONTINUAR AL PAGO</button>
+        </section>
+
+        <!-- PASO 3: PAGO -->
+        <section class="checkout__panel" id="js-panel-pago" style="display:none">
+          <h2 class="checkout__panel-title">MÉTODO DE PAGO</h2>
+
+          <div class="checkout__payment-placeholder">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <p>Pago con tarjeta vía Stripe</p>
+            <span>Disponible en la fase de backend</span>
+          </div>
+
+          <div class="checkout__back-row">
+            <button class="checkout__btn-ghost" id="js-btn-back-envio">← VOLVER AL ENVÍO</button>
+            <button class="checkout__btn-primary" id="js-btn-confirmar">CONFIRMAR PEDIDO</button>
+          </div>
+        </section>
+
+        <!-- PASO 4: CONFIRMACIÓN -->
+        <section class="checkout__panel checkout__confirm" id="js-panel-confirm" style="display:none">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <h2 class="checkout__confirm-title">¡PEDIDO CONFIRMADO!</h2>
+          <p class="checkout__confirm-sub" id="js-confirm-ref"></p>
+          <p class="checkout__confirm-desc">Recibirás un email con los detalles del envío en breve.</p>
+          <a href="index.html" class="checkout__btn-primary" style="display:inline-block;text-align:center;">VOLVER A LA TIENDA</a>
+        </section>
+
+      </div>
+
+      <!-- COLUMNA DERECHA: RESUMEN -->
+      <aside class="checkout__summary">
+        <h2 class="checkout__panel-title">RESUMEN DEL PEDIDO</h2>
+
+        <div class="summary__items" id="js-summary-items"></div>
+
+        <div class="summary__totals">
+          <div class="summary__row">
+            <span>SUBTOTAL</span>
+            <span id="js-summary-subtotal">0,00 €</span>
+          </div>
+          <div class="summary__row">
+            <span>ENVÍO</span>
+            <span class="summary__free">GRATIS</span>
+          </div>
+          <div class="summary__total-row">
+            <span>TOTAL</span>
+            <span id="js-summary-total">0,00 €</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <footer class="checkout__footer">
+    <span>© 2025 HAULIT</span>
+    <span>STREETWEAR</span>
+  </footer>
+
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
