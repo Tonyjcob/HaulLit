@@ -1,0 +1,12 @@
+# Configuración con claves privadas
+js/config.js
+
+# Variables de entorno
+.env
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
