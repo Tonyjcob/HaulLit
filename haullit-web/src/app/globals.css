@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --hl-green-900: #0e1f15;
+  --hl-green-700: #1d4a2e;
+  --hl-bone: #f1ede1;
+  --hl-cream: #d8d0b4;
+  --hl-stamp: #8b1a1a;
+}
+
+@theme inline {
+  --color-hl-green-900: var(--hl-green-900);
+  --color-hl-green-700: var(--hl-green-700);
+  --color-hl-bone: var(--hl-bone);
+  --color-hl-cream: var(--hl-cream);
+  --color-hl-stamp: var(--hl-stamp);
+
+  --font-display: var(--font-anton);
+  --font-body: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  font-family: var(--font-body);
+}
