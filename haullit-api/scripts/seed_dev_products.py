@@ -8,8 +8,11 @@ from app.db import SessionLocal
 from app.models import Product, ProductSize
 
 
-def placeholder_photo(ref: str, color: str) -> str:
-    return f"https://placehold.co/600x750/{color}/FFFFFF?text={ref}"
+def placeholder_photos(ref: str, color: str, count: int = 3) -> list[str]:
+    return [
+        f"https://placehold.co/600x750/{color}/FFFFFF?text={ref}+foto+{n}"
+        for n in range(1, count + 1)
+    ]
 
 
 PRODUCTS = [
@@ -97,7 +100,7 @@ def main() -> None:
                 price_cents=item["price_cents"],
                 description=item["description"],
                 measurements=item["measurements"],
-                photos=[placeholder_photo(item["ref"], item["color"])],
+                photos=placeholder_photos(item["ref"], item["color"]),
                 condition_note=item["condition_note"],
             )
             product.sizes = [

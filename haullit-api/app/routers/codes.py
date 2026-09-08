@@ -6,7 +6,12 @@ from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.models import Code, CodeStatus
-from app.schemas import CodeStatusResponse, CodeValidateRequest, CodeValidateResponse
+from app.schemas import (
+    CodeEmailUpdate,
+    CodeStatusResponse,
+    CodeValidateRequest,
+    CodeValidateResponse,
+)
 
 router = APIRouter(prefix="/codes", tags=["codes"])
 
@@ -27,3 +32,16 @@ def validate_code(payload: CodeValidateRequest, db: Session = Depends(get_db)) -
 def code_status(code_id: int, db: Session = Depends(get_db)) -> CodeStatusResponse:
     code = db.get(Code, code_id)
     return CodeStatusResponse(active=code is not None and code.status == CodeStatus.active)
+
+
+@router.patch("/{code_id}/email")
+def update_code_email(
+    code_id: int, payload: CodeEmailUpdate, db: Session = Depends(get_db)
+) -> dict[str, str | int]:
+    code = db.get(Code, code_id)
+    if code is None:
+        raise HTTPException(status_code=404, detail="Código no encontrado")
+
+    code.email = payload.email
+    db.commit()
+    return {"id": code.id, "email": code.email}
