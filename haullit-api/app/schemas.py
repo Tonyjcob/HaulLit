@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from app.models import CodeStatus
 
@@ -15,3 +15,22 @@ class CodeValidateResponse(BaseModel):
 
 class CodeStatusResponse(BaseModel):
     active: bool
+
+
+class ProductSizeOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    size: str
+    stock: int
+
+
+class ProductOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    ref: str
+    name: str
+    category: str
+    price_cents: int
+    photos: list[str]
+    sizes: list[ProductSizeOut]
