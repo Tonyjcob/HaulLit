@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: haullit
+      POSTGRES_PASSWORD: haullit
+      POSTGRES_DB: haullit
+    ports:
+      - "5432:5432"
+    volumes:
+      - haullit_db_data:/var/lib/postgresql/data
+
+volumes:
+  haullit_db_data:

@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "HaulLit",
-  description: "Streetwear de segunda mano, curado a mano.",
+  description: "Streetwear de resale, curado a mano.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

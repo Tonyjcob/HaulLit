@@ -5,7 +5,7 @@ export default function Home() {
         HaulLit
       </h1>
       <p className="max-w-md font-body text-base text-hl-green-700">
-        Streetwear de segunda mano, curado a mano. Fase 1 — setup del
+        Streetwear de resale, curado a mano. Fase 1 — setup del
         proyecto.
       </p>
       <div className="flex items-center gap-4 rounded-md bg-hl-cream px-4 py-2">
