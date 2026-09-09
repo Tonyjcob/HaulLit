@@ -61,3 +61,41 @@ export async function getAdminProduct(id: number): Promise<AdminProduct | null> 
   if (!res.ok) throw new Error("No se pudo cargar la pieza");
   return res.json();
 }
+
+export type OrderStatus = "pending" | "paid" | "shipped" | "cancelled";
+export type PaymentMethod = "transferencia" | "bizum";
+
+export type AdminOrderItem = {
+  ref: string;
+  name: string;
+  photo: string | null;
+  size: string;
+  quantity: number;
+  price_cents: number;
+};
+
+export type AdminOrder = {
+  id: number;
+  status: OrderStatus;
+  payment_method: PaymentMethod;
+  payment_reference: string;
+  code: string;
+  email_snapshot: string;
+  shipping_address_snapshot: {
+    nombre: string;
+    direccion: string;
+    ciudad: string;
+    cp: string;
+  };
+  subtotal_cents: number;
+  shipping_cents: number;
+  total_cents: number;
+  created_at: string;
+  items: AdminOrderItem[];
+};
+
+export async function getAdminOrders(): Promise<AdminOrder[]> {
+  const res = await fetch(`${API_URL}/admin/orders`, { cache: "no-store" });
+  if (!res.ok) throw new Error("No se pudieron cargar los pedidos");
+  return res.json();
+}
