@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 
-from app.models import CodeStatus, PaymentMethod
+from app.models import CodeStatus, OrderStatus, PaymentMethod
 
 
 class CodeValidateRequest(BaseModel):
@@ -49,6 +51,12 @@ class CodeEmailUpdate(BaseModel):
 class CodeContactOut(BaseModel):
     id: int
     email: str | None
+    shipping_address: dict | None
+
+
+class CodeContactUpdate(BaseModel):
+    email: str
+    shipping_address: dict
 
 
 class CartItemIn(BaseModel):
@@ -97,3 +105,24 @@ class CheckoutResult(BaseModel):
     order_id: int
     total_cents: int
     payment: PaymentInstructions
+
+
+class OrderItemHistoryOut(BaseModel):
+    ref: str
+    name: str
+    photo: str | None
+    size: str
+    quantity: int
+    price_cents: int
+
+
+class OrderHistoryOut(BaseModel):
+    id: int
+    status: OrderStatus
+    payment_method: PaymentMethod
+    payment_reference: str
+    subtotal_cents: int
+    shipping_cents: int
+    total_cents: int
+    created_at: datetime
+    items: list[OrderItemHistoryOut]
