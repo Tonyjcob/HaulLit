@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import cart, checkout, codes, products
+from app.routers import admin, cart, checkout, codes, products
 
 app = FastAPI(title="HaulLit API")
 
@@ -18,6 +18,7 @@ app.include_router(codes.router)
 app.include_router(products.router)
 app.include_router(cart.router)
 app.include_router(checkout.router)
+app.include_router(admin.router)
 
 
 @app.get("/health")

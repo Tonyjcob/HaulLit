@@ -42,5 +42,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|acceso|api/acceso).*)"],
+  // El panel admin (/admin, /api/admin) tiene su propia sesion y
+  // proteccion (ver lib/admin-session.ts) - no requiere codigo de
+  // cliente, por eso queda fuera de este gate.
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|acceso|api/acceso|admin|api/admin).*)",
+  ],
 };

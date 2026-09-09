@@ -126,3 +126,26 @@ class OrderHistoryOut(BaseModel):
     total_cents: int
     created_at: datetime
     items: list[OrderItemHistoryOut]
+
+
+class AdminLoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class AdminLoginResponse(BaseModel):
+    id: int
+    email: str
+
+
+class CodeAdminOut(BaseModel):
+    id: int
+    code: str
+    status: CodeStatus
+    email: str | None
+    created_at: datetime
+    last_seen_at: datetime | None
+
+
+class CodeStatusUpdate(BaseModel):
+    status: CodeStatus

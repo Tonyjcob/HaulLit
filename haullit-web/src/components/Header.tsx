@@ -7,7 +7,7 @@ import CartWidget from "@/components/CartWidget";
 export default function Header() {
   const pathname = usePathname();
 
-  if (pathname === "/acceso") {
+  if (pathname === "/acceso" || pathname.startsWith("/admin")) {
     return null;
   }
 
