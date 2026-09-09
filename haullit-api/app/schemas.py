@@ -34,3 +34,13 @@ class ProductOut(BaseModel):
     price_cents: int
     photos: list[str]
     sizes: list[ProductSizeOut]
+
+
+class ProductDetailOut(ProductOut):
+    description: str
+    measurements: dict | None
+    condition_note: str | None
+
+
+class CodeEmailUpdate(BaseModel):
+    email: str

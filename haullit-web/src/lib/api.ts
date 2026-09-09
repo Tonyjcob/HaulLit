@@ -15,6 +15,12 @@ export type Product = {
   sizes: ProductSize[];
 };
 
+export type ProductDetail = Product & {
+  description: string;
+  measurements: Record<string, number> | null;
+  condition_note: string | null;
+};
+
 export type Orden = "recientes" | "precio_asc" | "precio_desc";
 
 export async function getProducts(params: {
@@ -42,4 +48,13 @@ export async function getCategorias(): Promise<string[]> {
 
 export function stockTotal(product: Product): number {
   return product.sizes.reduce((sum, s) => sum + s.stock, 0);
+}
+
+export async function getProduct(ref: string): Promise<ProductDetail | null> {
+  const res = await fetch(`${API_URL}/products/${encodeURIComponent(ref)}`, {
+    cache: "no-store",
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error("No se pudo cargar el producto");
+  return res.json();
 }

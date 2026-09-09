@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Product } from "@/lib/api";
 import { stockTotal } from "@/lib/api";
 
@@ -16,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const ultimasUnidades = !agotado && stock <= ULTIMAS_UNIDADES_MAX;
 
   return (
-    <div className="flex flex-col gap-2">
+    <Link href={`/producto/${product.ref}`} className="flex flex-col gap-2">
       <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-hl-cream">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -45,6 +46,6 @@ export default function ProductCard({ product }: { product: Product }) {
       <span className="font-mono text-sm font-medium text-hl-green-900">
         {formatPrice(product.price_cents)}&nbsp;€
       </span>
-    </div>
+    </Link>
   );
 }
