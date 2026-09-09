@@ -22,6 +22,7 @@ export default async function AdminProtectedLayout({
           </span>
           <nav className="flex gap-4 font-mono text-sm text-hl-green-900">
             <Link href="/admin/codigos">Códigos</Link>
+            <Link href="/admin/piezas">Piezas</Link>
           </nav>
         </div>
         <AdminLogoutButton />

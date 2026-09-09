@@ -149,3 +149,20 @@ class CodeAdminOut(BaseModel):
 
 class CodeStatusUpdate(BaseModel):
     status: CodeStatus
+
+
+class ProductSizeIn(BaseModel):
+    size: str
+    stock: int
+
+
+class ProductAdminIn(BaseModel):
+    ref: str
+    name: str
+    category: str
+    price_cents: int
+    description: str
+    measurements: dict
+    photos: list[str]
+    condition_note: str | None = None
+    sizes: list[ProductSizeIn]
