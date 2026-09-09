@@ -27,6 +27,11 @@ class OrderStatus(str, enum.Enum):
     cancelled = "cancelled"
 
 
+class PaymentMethod(str, enum.Enum):
+    transferencia = "transferencia"
+    bizum = "bizum"
+
+
 class Code(Base):
     __tablename__ = "codes"
 
@@ -42,6 +47,9 @@ class Code(Base):
     last_seen_at: Mapped[datetime | None]
 
     orders: Mapped[list["Order"]] = relationship(back_populates="code")
+    cart_items: Mapped[list["CartItem"]] = relationship(
+        back_populates="code", cascade="all, delete-orphan"
+    )
 
 
 class Product(Base):
@@ -75,6 +83,21 @@ class ProductSize(Base):
     product: Mapped["Product"] = relationship(back_populates="sizes")
 
 
+class CartItem(Base):
+    __tablename__ = "cart_items"
+    __table_args__ = (UniqueConstraint("code_id", "product_id", "size"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    code_id: Mapped[int] = mapped_column(ForeignKey("codes.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
+    size: Mapped[str]
+    quantity: Mapped[int] = mapped_column(default=1)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+    code: Mapped["Code"] = relationship(back_populates="cart_items")
+    product: Mapped["Product"] = relationship()
+
+
 class Order(Base):
     __tablename__ = "orders"
 
@@ -88,7 +111,10 @@ class Order(Base):
     total_cents: Mapped[int]
     shipping_address_snapshot: Mapped[dict] = mapped_column(JSONB)
     email_snapshot: Mapped[str]
-    stripe_payment_id: Mapped[str | None]
+    payment_method: Mapped[PaymentMethod] = mapped_column(
+        Enum(PaymentMethod, name="payment_method")
+    )
+    payment_reference: Mapped[str] = mapped_column(unique=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     code: Mapped["Code"] = relationship(back_populates="orders")

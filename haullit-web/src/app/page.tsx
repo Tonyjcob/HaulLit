@@ -19,10 +19,6 @@ export default async function Home({
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-6 py-12">
-      <h1 className="font-display text-4xl uppercase tracking-wide text-hl-green-900">
-        HaulLit
-      </h1>
-
       <div className="flex flex-wrap items-center justify-between gap-3">
         <ProductFilters categorias={categorias} />
         <span className="font-mono text-sm text-hl-green-700">

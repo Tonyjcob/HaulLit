@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.models import Code, CodeStatus
 from app.schemas import (
+    CodeContactOut,
     CodeEmailUpdate,
     CodeStatusResponse,
     CodeValidateRequest,
@@ -25,6 +26,14 @@ def validate_code(payload: CodeValidateRequest, db: Session = Depends(get_db)) -
     code.last_seen_at = datetime.now(timezone.utc)
     db.commit()
     db.refresh(code)
+    return code
+
+
+@router.get("/{code_id}", response_model=CodeContactOut)
+def get_code_contact(code_id: int, db: Session = Depends(get_db)) -> Code:
+    code = db.get(Code, code_id)
+    if code is None:
+        raise HTTPException(status_code=404, detail="Código no encontrado")
     return code
 
 
