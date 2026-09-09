@@ -99,9 +99,57 @@ export async function getCart(codeId: number): Promise<Cart> {
   return res.json();
 }
 
-export async function getCodeEmail(codeId: number): Promise<string | null> {
+export type ShippingAddress = {
+  nombre: string;
+  direccion: string;
+  ciudad: string;
+  cp: string;
+};
+
+export type CodeContact = {
+  id: number;
+  email: string | null;
+  shipping_address: ShippingAddress | null;
+};
+
+export async function getCodeContact(codeId: number): Promise<CodeContact | null> {
   const res = await fetch(`${API_URL}/codes/${codeId}`, { cache: "no-store" });
   if (!res.ok) return null;
-  const data: { email: string | null } = await res.json();
-  return data.email;
+  return res.json();
+}
+
+export async function getCodeEmail(codeId: number): Promise<string | null> {
+  const contact = await getCodeContact(codeId);
+  return contact?.email ?? null;
+}
+
+export type OrderItemHistory = {
+  ref: string;
+  name: string;
+  photo: string | null;
+  size: string;
+  quantity: number;
+  price_cents: number;
+};
+
+export type OrderStatus = "pending" | "paid" | "shipped" | "cancelled";
+
+export type OrderHistory = {
+  id: number;
+  status: OrderStatus;
+  payment_method: PaymentMethod;
+  payment_reference: string;
+  subtotal_cents: number;
+  shipping_cents: number;
+  total_cents: number;
+  created_at: string;
+  items: OrderItemHistory[];
+};
+
+export async function getOrders(codeId: number): Promise<OrderHistory[]> {
+  const res = await fetch(`${API_URL}/codes/${codeId}/orders`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("No se pudo cargar el historial de pedidos");
+  return res.json();
 }

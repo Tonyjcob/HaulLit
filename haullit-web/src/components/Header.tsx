@@ -19,7 +19,12 @@ export default function Header() {
       >
         HaulLit
       </Link>
-      <CartWidget />
+      <div className="flex items-center gap-4">
+        <Link href="/cuenta" className="font-mono text-sm text-hl-green-900">
+          Mi cuenta
+        </Link>
+        <CartWidget />
+      </div>
     </header>
   );
 }
