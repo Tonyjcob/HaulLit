@@ -166,3 +166,22 @@ class ProductAdminIn(BaseModel):
     photos: list[str]
     condition_note: str | None = None
     sizes: list[ProductSizeIn]
+
+
+class OrderAdminOut(BaseModel):
+    id: int
+    status: OrderStatus
+    payment_method: PaymentMethod
+    payment_reference: str
+    code: str
+    email_snapshot: str
+    shipping_address_snapshot: dict
+    subtotal_cents: int
+    shipping_cents: int
+    total_cents: int
+    created_at: datetime
+    items: list[OrderItemHistoryOut]
+
+
+class OrderStatusUpdate(BaseModel):
+    status: OrderStatus

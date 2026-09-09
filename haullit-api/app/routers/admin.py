@@ -8,12 +8,14 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.core.security import verify_password
 from app.db import get_db
-from app.models import AdminUser, Code, Product, ProductSize
+from app.models import AdminUser, Code, Order, OrderItem, OrderStatus, Product, ProductSize
 from app.schemas import (
     AdminLoginRequest,
     AdminLoginResponse,
     CodeAdminOut,
     CodeStatusUpdate,
+    OrderAdminOut,
+    OrderStatusUpdate,
     ProductAdminIn,
     ProductDetailOut,
 )
@@ -158,3 +160,72 @@ def delete_product(product_id: int, db: Session = Depends(get_db)) -> dict[str, 
             detail="No se puede borrar: esta pieza tiene pedidos asociados",
         )
     return {"ok": True}
+
+
+def _order_query():
+    return select(Order).options(
+        selectinload(Order.code),
+        selectinload(Order.items)
+        .selectinload(OrderItem.product)
+        .selectinload(Product.sizes),
+    )
+
+
+def _to_order_admin_out(order: Order) -> OrderAdminOut:
+    return OrderAdminOut(
+        id=order.id,
+        status=order.status,
+        payment_method=order.payment_method,
+        payment_reference=order.payment_reference,
+        code=order.code.code,
+        email_snapshot=order.email_snapshot,
+        shipping_address_snapshot=order.shipping_address_snapshot,
+        subtotal_cents=order.subtotal_cents,
+        shipping_cents=order.shipping_cents,
+        total_cents=order.total_cents,
+        created_at=order.created_at,
+        items=[
+            {
+                "ref": item.product.ref,
+                "name": item.product.name,
+                "photo": item.product.photos[0] if item.product.photos else None,
+                "size": item.size,
+                "quantity": item.quantity,
+                "price_cents": item.price_cents,
+            }
+            for item in order.items
+        ],
+    )
+
+
+@router.get("/orders", response_model=list[OrderAdminOut])
+def list_all_orders(db: Session = Depends(get_db)) -> list[OrderAdminOut]:
+    stmt = _order_query().order_by(Order.created_at.desc())
+    orders = list(db.scalars(stmt).unique())
+    return [_to_order_admin_out(o) for o in orders]
+
+
+@router.patch("/orders/{order_id}", response_model=OrderAdminOut)
+def update_order_status(
+    order_id: int, payload: OrderStatusUpdate, db: Session = Depends(get_db)
+) -> OrderAdminOut:
+    order = db.scalar(_order_query().where(Order.id == order_id))
+    if order is None:
+        raise HTTPException(status_code=404, detail="Pedido no encontrado")
+
+    was_cancelled = order.status == OrderStatus.cancelled
+    order.status = payload.status
+
+    # Solo se restaura el stock al pasar A cancelado desde otro estado -
+    # no se vuelve a descontar si se "reactiva" un pedido cancelado.
+    if payload.status == OrderStatus.cancelled and not was_cancelled:
+        for item in order.items:
+            size = next(
+                (s for s in item.product.sizes if s.size == item.size), None
+            )
+            if size is not None:
+                size.stock += item.quantity
+
+    db.commit()
+    db.refresh(order)
+    return _to_order_admin_out(order)
