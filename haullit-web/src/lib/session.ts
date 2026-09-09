@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
+import type { NextRequest } from "next/server";
 
 export const SESSION_COOKIE_NAME = "hl_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 365; // 1 año — techo de seguridad, no el mecanismo de revocación
@@ -27,6 +28,21 @@ export async function verifySessionToken(token: string): Promise<number | null> 
   } catch {
     return null;
   }
+}
+
+export async function getSessionCodeId(
+  request: NextRequest,
+): Promise<number | null> {
+  const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+  return token ? verifySessionToken(token) : null;
+}
+
+/** Igual que getSessionCodeId pero para Server Components, que leen la
+ * cookie via next/headers en vez de un NextRequest. */
+export async function getSessionCodeIdFromCookies(): Promise<number | null> {
+  const { cookies } = await import("next/headers");
+  const token = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
+  return token ? verifySessionToken(token) : null;
 }
 
 export const sessionCookieOptions = {

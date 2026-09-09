@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from app.models import CodeStatus
+from app.models import CodeStatus, PaymentMethod
 
 
 class CodeValidateRequest(BaseModel):
@@ -44,3 +44,56 @@ class ProductDetailOut(ProductOut):
 
 class CodeEmailUpdate(BaseModel):
     email: str
+
+
+class CodeContactOut(BaseModel):
+    id: int
+    email: str | None
+
+
+class CartItemIn(BaseModel):
+    ref: str
+    size: str
+    quantity: int = 1
+
+
+class CartItemQuantityUpdate(BaseModel):
+    quantity: int
+
+
+class CartItemOut(BaseModel):
+    id: int
+    ref: str
+    name: str
+    photo: str | None
+    size: str
+    quantity: int
+    price_cents: int
+    line_total_cents: int
+
+
+class CartOut(BaseModel):
+    items: list[CartItemOut]
+    subtotal_cents: int
+    shipping_cents: int
+    total_cents: int
+
+
+class CheckoutRequest(BaseModel):
+    email: str
+    shipping_address: dict
+    payment_method: PaymentMethod
+
+
+class PaymentInstructions(BaseModel):
+    method: PaymentMethod
+    reference: str
+    iban: str | None = None
+    holder: str | None = None
+    phone: str | None = None
+
+
+class CheckoutResult(BaseModel):
+    order_id: int
+    total_cents: int
+    payment: PaymentInstructions

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SESSION_COOKIE_NAME, verifySessionToken } from "@/lib/session";
+import { getSessionCodeId } from "@/lib/session";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request: NextRequest) {
-  const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
-  const codeId = token ? await verifySessionToken(token) : null;
+  const codeId = await getSessionCodeId(request);
 
   if (codeId === null) {
     return NextResponse.json({ error: "Sesión no válida" }, { status: 401 });

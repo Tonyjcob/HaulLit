@@ -58,3 +58,50 @@ export async function getProduct(ref: string): Promise<ProductDetail | null> {
   if (!res.ok) throw new Error("No se pudo cargar el producto");
   return res.json();
 }
+
+export type CartItem = {
+  id: number;
+  ref: string;
+  name: string;
+  photo: string | null;
+  size: string;
+  quantity: number;
+  price_cents: number;
+  line_total_cents: number;
+};
+
+export type Cart = {
+  items: CartItem[];
+  subtotal_cents: number;
+  shipping_cents: number;
+  total_cents: number;
+};
+
+export type PaymentMethod = "transferencia" | "bizum";
+
+export type PaymentInstructions = {
+  method: PaymentMethod;
+  reference: string;
+  iban: string | null;
+  holder: string | null;
+  phone: string | null;
+};
+
+export type CheckoutResult = {
+  order_id: number;
+  total_cents: number;
+  payment: PaymentInstructions;
+};
+
+export async function getCart(codeId: number): Promise<Cart> {
+  const res = await fetch(`${API_URL}/cart/${codeId}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("No se pudo cargar el carrito");
+  return res.json();
+}
+
+export async function getCodeEmail(codeId: number): Promise<string | null> {
+  const res = await fetch(`${API_URL}/codes/${codeId}`, { cache: "no-store" });
+  if (!res.ok) return null;
+  const data: { email: string | null } = await res.json();
+  return data.email;
+}

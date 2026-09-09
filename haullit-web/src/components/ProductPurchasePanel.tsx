@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ProductDetail } from "@/lib/api";
 import { stockTotal } from "@/lib/api";
+import { CART_UPDATED_EVENT } from "@/components/CartWidget";
 
 function formatPrice(cents: number): string {
   return (cents / 100).toLocaleString("es-ES", {
@@ -71,7 +72,26 @@ export default function ProductPurchasePanel({
 }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [showNotify, setShowNotify] = useState(false);
+  const [addStatus, setAddStatus] = useState<"idle" | "loading" | "done" | "error">(
+    "idle",
+  );
   const agotado = stockTotal(product) === 0;
+
+  async function handleAddToCart() {
+    if (!selectedSize) return;
+    setAddStatus("loading");
+
+    const res = await fetch("/api/carrito", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ref: product.ref, size: selectedSize, quantity: 1 }),
+    });
+
+    setAddStatus(res.ok ? "done" : "error");
+    if (res.ok) {
+      window.dispatchEvent(new Event(CART_UPDATED_EVENT));
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -131,7 +151,10 @@ export default function ProductPurchasePanel({
                 key={s.size}
                 type="button"
                 disabled={s.stock === 0}
-                onClick={() => setSelectedSize(s.size)}
+                onClick={() => {
+                  setSelectedSize(s.size);
+                  setAddStatus("idle");
+                }}
                 className={`rounded-md border px-3 py-2 font-mono text-sm ${
                   s.stock === 0
                     ? "cursor-not-allowed border-hl-cream text-hl-green-700 line-through opacity-50"
@@ -147,11 +170,21 @@ export default function ProductPurchasePanel({
 
           <button
             type="button"
-            disabled={!selectedSize}
+            disabled={!selectedSize || addStatus === "loading"}
+            onClick={handleAddToCart}
             className="w-fit rounded-md bg-hl-green-900 px-4 py-2 font-body text-sm font-medium text-hl-bone disabled:opacity-50"
           >
-            Añadir al carrito
+            {addStatus === "loading"
+              ? "Añadiendo…"
+              : addStatus === "done"
+                ? "Añadido ✓"
+                : "Añadir al carrito"}
           </button>
+          {addStatus === "error" && (
+            <p className="font-body text-sm text-hl-stamp">
+              No se pudo añadir, inténtalo de nuevo.
+            </p>
+          )}
         </div>
       )}
     </div>

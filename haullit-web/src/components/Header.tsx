@@ -1,0 +1,25 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import CartWidget from "@/components/CartWidget";
+
+export default function Header() {
+  const pathname = usePathname();
+
+  if (pathname === "/acceso") {
+    return null;
+  }
+
+  return (
+    <header className="flex items-center justify-between border-b border-hl-cream px-6 py-4">
+      <Link
+        href="/"
+        className="font-display text-2xl uppercase tracking-wide text-hl-green-900"
+      >
+        HaulLit
+      </Link>
+      <CartWidget />
+    </header>
+  );
+}
